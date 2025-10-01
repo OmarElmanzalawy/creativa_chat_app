@@ -1,4 +1,5 @@
 import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/views/reset_password_screen.dart';
 import 'package:chat_app/views/sign_up_screen.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_textfield.dart';
@@ -81,6 +82,15 @@ class _SignInScreenState extends State<SignInScreen> {
                             }
                             return null;
                           },
+                        ),
+
+                        Row(
+                          children: [
+                            Spacer(),
+                            TextButton(onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder:(context) => ResetPasswordScreen(),));
+                            }, child: Text("Forget password",style: TextStyle(color: Colors.blue),))
+                          ],
                         ),
                     
                         const SizedBox(height: 24),

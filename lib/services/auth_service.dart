@@ -5,6 +5,29 @@ import 'package:flutter/material.dart';
 
 class AuthService {
 
+static sendResetEmail(
+  String email,
+  BuildContext context
+  )async{
+
+  try{
+
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
+     ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("email has been sent to $email"))
+    );
+
+  }catch(e){
+
+    print("error while reseting password");
+
+  }
+
+  
+
+}
+
 static Future<bool> checkEmailVerification()async{
 
   final currentUser = FirebaseAuth.instance.currentUser!;
