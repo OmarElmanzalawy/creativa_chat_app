@@ -1,0 +1,113 @@
+import 'package:chat_app/views/sign_up_screen.dart';
+import 'package:chat_app/widgets/custom_button.dart';
+import 'package:chat_app/widgets/custom_textfield.dart';
+import 'package:flutter/material.dart';
+
+class SignInScreen extends StatelessWidget {
+  SignInScreen({super.key});
+
+  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 90,),
+ const Text(
+                  'Welcome Back',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Sign in to continue our chat app',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          hintText: 'Enter your email',
+                          labelText: 'Username',
+                          controller: _emailController,
+                          prefixIcon: Icons.person,
+                          validator: (value){
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a username';
+                            }
+                            if (value.length < 3) {
+                              return 'Username must be at least 3 characters';
+                            }
+                            return null;
+                          },
+                        ),
+                        CustomTextField(
+                          hintText: 'Enter your password',
+                          labelText: 'Email',
+                          controller: _passwordController,
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIcon: Icons.email,
+                          validator: (value){
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter an email';
+                            }
+                            return null;
+                          },
+                        ),
+                    
+                        const SizedBox(height: 24),
+                         CustomButton(
+                          text: 'Sign Up',
+                          onPressed: ()async{
+                            
+                            
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Already have an account? ',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) => SignUpScreen(),), (route) => false);
+                              },
+                              child: const Text(
+                                'Sign In',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+          ],
+        ),
+      ),
+                ),
+
+               
+          ],
+                ),
+      )
+    );
+  }
+}
