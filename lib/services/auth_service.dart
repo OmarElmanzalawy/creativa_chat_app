@@ -5,6 +5,19 @@ import 'package:flutter/material.dart';
 
 class AuthService {
 
+static Future<bool> checkEmailVerification()async{
+
+  final currentUser = FirebaseAuth.instance.currentUser!;
+
+  await currentUser.reload();
+
+  if(currentUser.emailVerified){
+    return true;
+  }else{
+    return false;
+  }
+}
+
 
 static void login({
   required String email,
@@ -18,8 +31,6 @@ static void login({
       email: email,
       password: password
       );
-
-
 
     //Checks if user's email is verified
     final isVerified = FirebaseAuth.instance.currentUser!.emailVerified;
