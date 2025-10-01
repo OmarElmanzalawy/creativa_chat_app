@@ -1,3 +1,4 @@
+import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/views/sign_up_screen.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_textfield.dart';
@@ -42,25 +43,25 @@ class SignInScreen extends StatelessWidget {
                       children: [
                         CustomTextField(
                           hintText: 'Enter your email',
-                          labelText: 'Username',
+                          labelText: 'email',
                           controller: _emailController,
-                          prefixIcon: Icons.person,
-                          validator: (value){
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a username';
-                            }
-                            if (value.length < 3) {
-                              return 'Username must be at least 3 characters';
-                            }
-                            return null;
-                          },
+                          prefixIcon: Icons.mail,
+                          // validator: (value){
+                          //   if (value == null || value.isEmpty) {
+                          //     return 'Please enter a username';
+                          //   }
+                          //   if (value.length < 3) {
+                          //     return 'Username must be at least 3 characters';
+                          //   }
+                          //   return null;
+                          // },
                         ),
                         CustomTextField(
                           hintText: 'Enter your password',
-                          labelText: 'Email',
+                          labelText: 'Password',
                           controller: _passwordController,
                           keyboardType: TextInputType.emailAddress,
-                          prefixIcon: Icons.email,
+                          prefixIcon: Icons.lock,
                           validator: (value){
                             if (value == null || value.isEmpty) {
                               return 'Please enter an email';
@@ -71,9 +72,11 @@ class SignInScreen extends StatelessWidget {
                     
                         const SizedBox(height: 24),
                          CustomButton(
-                          text: 'Sign Up',
+                          text: 'Sign In',
                           onPressed: ()async{
                             
+                            AuthService.login(
+                              email: _emailController.text, password: _passwordController.text, context: context);
                             
                           },
                         ),

@@ -1,8 +1,45 @@
 import 'package:chat_app/views/email_verification_screen.dart';
+import 'package:chat_app/views/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AuthService {
+
+
+static void login({
+  required String email,
+  required String password,
+  required BuildContext context
+})async{
+
+  try{
+
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password
+      );
+
+
+
+    //Checks if user's email is verified
+    final isVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+
+    if(isVerified){
+      Navigator.push(context, MaterialPageRoute(builder:(context) => HomeScreen(),));
+       ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Login successful"))
+    );
+    }else{
+      Navigator.push(context, MaterialPageRoute(builder:(context) => EmailVerificationScreen(),));
+       ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Please verify your email"))
+    );
+    }
+
+  }catch(e){
+
+  }
+}
 
 
 //register
