@@ -22,7 +22,7 @@ class ResetPasswordScreen extends StatelessWidget {
               CustomTextField(
                 hintText: "enter your recovery email",
                 labelText: "email",
-                controller: _emailController
+                controller: _emailController,
                 ),
                 CustomButton(
                   text: "Send recovery email",
