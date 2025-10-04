@@ -22,5 +22,16 @@ class ChatService {
 
   }
 
+  static void createChatId(String receiverId)async{
+
+    String chatId = "";
+
+    chatId = "${FirebaseAuth.instance.currentUser!.uid}$receiverId";
+
+    await FirebaseFirestore.instance.collection("chats").doc(chatId).set({});
+
+
+  }
+
 
 }
