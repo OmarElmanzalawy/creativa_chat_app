@@ -32,7 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
               return ListView.builder(
               itemCount: appBrain.users.value.length,
               itemBuilder:(context, index) {
-                return UserCard();
+                final model = appBrain.users.value[index];
+                return UserCard(
+                  model: model,
+                );
               },
               );
             } 
