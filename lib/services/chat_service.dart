@@ -1,3 +1,4 @@
+import 'package:chat_app/models/message_model.dart';
 import 'package:chat_app/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,6 +49,17 @@ class ChatService {
 
   static Future<void> createChat(String chatId)async{
     await FirebaseFirestore.instance.collection("chats").doc(chatId).set({});
+  }
+
+  static Stream<List<MessageModel>> getChatStream(String chatId){
+
+    final snapshot =  FirebaseFirestore.instance.collection("chats").doc(chatId).collection("messages").snapshots();
+
+   return snapshot.map(
+      (snapshot){
+        return snapshot.docs.map((document) => MessageModel.fromJson(document.data())).toList();
+      }
+    );
   }
 
 

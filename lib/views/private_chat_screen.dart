@@ -1,10 +1,27 @@
+import 'package:chat_app/models/message_model.dart';
+import 'package:chat_app/services/chat_service.dart';
 import 'package:chat_app/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
 
-class PrivateChatScreen extends StatelessWidget {
+class PrivateChatScreen extends StatefulWidget {
   const PrivateChatScreen({super.key,required this.chatId});
 
   final String chatId;
+
+
+  @override
+  State<PrivateChatScreen> createState() => _PrivateChatScreenState();
+}
+
+class _PrivateChatScreenState extends State<PrivateChatScreen> {
+
+  late Stream<List<MessageModel>> chat_stream;
+
+  @override
+  void initState() {
+    chat_stream = ChatService.getChatStream(widget.chatId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +32,17 @@ class PrivateChatScreen extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView(
-              padding: EdgeInsets.only(top:  15,right: 8,left: 8),
-              children: [
-                ChatBubble(isMe: true),
-                ChatBubble(isMe: false),
-              ],
+            child: StreamBuilder<Object>(
+              stream: chat_stream,
+              builder: (context, snapshot) {
+                return ListView(
+                  padding: EdgeInsets.only(top:  15,right: 8,left: 8),
+                  children: [
+                    ChatBubble(isMe: true),
+                    ChatBubble(isMe: false),
+                  ],
+                );
+              }
             )
             ),
             Container(
