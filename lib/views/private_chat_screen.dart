@@ -20,6 +20,9 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
   @override
   void initState() {
     chat_stream = ChatService.getChatStream(widget.chatId);
+    chat_stream.listen((data){
+      print(data);
+    });
     super.initState();
   }
 
@@ -32,9 +35,20 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder<Object>(
+            child: StreamBuilder<List<MessageModel>>(
               stream: chat_stream,
               builder: (context, snapshot) {
+                print(snapshot.connectionState);
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if(snapshot.data?.isEmpty ?? false){
+                  return Center(
+                    child: Text("No messages sent yet"),
+                  );
+                }
                 return ListView(
                   padding: EdgeInsets.only(top:  15,right: 8,left: 8),
                   children: [
