@@ -121,7 +121,8 @@ class SignUpScreen extends StatelessWidget {
                               if(_formKey.currentState!.validate()){
                                 //Sign up user and navigate to home
                                 AuthService.registerUser(
-                                  email: _emailController.text, 
+                                  email: _emailController.text,
+                                  userName: _userNameController.text, 
                                   password: _passwordController.text,
                                    context: context
                                    );

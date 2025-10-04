@@ -1,5 +1,7 @@
+import 'package:chat_app/models/user_model.dart';
 import 'package:chat_app/views/email_verification_screen.dart';
 import 'package:chat_app/views/home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -80,6 +82,7 @@ static void login({
 static void registerUser({
   required String email,
   required String password,
+  required String userName,
   required BuildContext context
 }) async {
 
@@ -91,6 +94,12 @@ static void registerUser({
     );
 
   await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+
+  final user = UserModel(email: email, userName: userName, id: FirebaseAuth.instance.currentUser!.uid);
+
+  
+
+  await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).set(user.toMap());
 
   Navigator.push(context, MaterialPageRoute(builder:(context) => EmailVerificationScreen(),));
 
