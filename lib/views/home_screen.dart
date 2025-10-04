@@ -1,4 +1,5 @@
 import 'package:chat_app/main.dart';
+import 'package:chat_app/services/chat_service.dart';
 import 'package:chat_app/view_model/appbrain.dart';
 import 'package:chat_app/views/private_chat_screen.dart';
 import 'package:chat_app/widgets/user_card.dart';
@@ -35,7 +36,42 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder:(context, index) {
                 final model = appBrain.users.value[index];
                 return GestureDetector(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder:(context) => PrivateChatScreen(),)),
+
+                  onTap: () async{
+
+                    //creates id
+
+                    final chatId = ChatService.createChatId(model.id);
+
+                    //check if id already exists
+
+                    final doesExists = await ChatService.doesIdExist(chatId);
+
+                    if(doesExists){
+
+                      print("chat already exist");
+
+                      //if exists => Navigate only
+                     Navigator.push(context, MaterialPageRoute(builder:(context) =>
+                     PrivateChatScreen(
+                      chatId: chatId,
+                     ),));
+
+                    }else{
+
+                      print("creating new chat and navigating");
+
+                      //if new => create document then navigate
+                      await ChatService.createChat(chatId);
+
+                        Navigator.push(context, MaterialPageRoute(builder:(context) =>
+                     PrivateChatScreen(
+                      chatId: chatId,
+                     ),));
+
+
+                    }
+                  } ,
                   child: UserCard(
                     model: model,
                   ),

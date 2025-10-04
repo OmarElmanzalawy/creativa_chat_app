@@ -22,16 +22,35 @@ class ChatService {
 
   }
 
-  static void createChatId(String receiverId)async{
+  static String createChatId(String receiverId){
 
     String chatId = "";
+    final currentUid = FirebaseAuth.instance.currentUser!.uid;
 
-    chatId = "${FirebaseAuth.instance.currentUser!.uid}$receiverId";
+    if(currentUid.compareTo(receiverId) < 0){
+      //current id is smaller
+     chatId = "${FirebaseAuth.instance.currentUser!.uid}$receiverId";
+    }
+    else{
+      chatId = "$receiverId${FirebaseAuth.instance.currentUser!.uid}";
+    }
 
-    await FirebaseFirestore.instance.collection("chats").doc(chatId).set({});
+    return chatId;
+  }
 
+
+  static Future<bool> doesIdExist(String chatId)async{
+
+    final document =  await FirebaseFirestore.instance.collection("chats").doc(chatId).get();
+    return document.exists;
 
   }
+
+  static Future<void> createChat(String chatId)async{
+    await FirebaseFirestore.instance.collection("chats").doc(chatId).set({});
+  }
+
+
 
 
 }

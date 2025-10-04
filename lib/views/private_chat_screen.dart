@@ -2,7 +2,9 @@ import 'package:chat_app/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
 
 class PrivateChatScreen extends StatelessWidget {
-  const PrivateChatScreen({super.key});
+  const PrivateChatScreen({super.key,required this.chatId});
+
+  final String chatId;
 
   @override
   Widget build(BuildContext context) {
