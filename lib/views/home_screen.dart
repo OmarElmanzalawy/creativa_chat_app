@@ -1,5 +1,6 @@
 import 'package:chat_app/main.dart';
 import 'package:chat_app/view_model/appbrain.dart';
+import 'package:chat_app/views/private_chat_screen.dart';
 import 'package:chat_app/widgets/user_card.dart';
 import 'package:flutter/material.dart';
 
@@ -33,8 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: appBrain.users.value.length,
               itemBuilder:(context, index) {
                 final model = appBrain.users.value[index];
-                return UserCard(
-                  model: model,
+                return GestureDetector(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder:(context) => PrivateChatScreen(),)),
+                  child: UserCard(
+                    model: model,
+                  ),
                 );
               },
               );
