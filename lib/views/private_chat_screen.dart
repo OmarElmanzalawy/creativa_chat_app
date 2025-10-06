@@ -1,6 +1,7 @@
 import 'package:chat_app/models/message_model.dart';
 import 'package:chat_app/services/chat_service.dart';
 import 'package:chat_app/widgets/chat_bubble.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PrivateChatScreen extends StatefulWidget {
@@ -16,6 +17,8 @@ class PrivateChatScreen extends StatefulWidget {
 class _PrivateChatScreenState extends State<PrivateChatScreen> {
 
   late Stream<List<MessageModel>> chat_stream;
+
+  final TextEditingController messageController = TextEditingController();
 
   @override
   void initState() {
@@ -67,6 +70,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: messageController,
                       decoration: InputDecoration(
                         hintText: "Enter message",
                         border: OutlineInputBorder(
@@ -85,7 +89,22 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
                       shape: BoxShape.circle,
                       color: Colors.blue
                       ),
-                      child: IconButton(onPressed: (){}, icon: Icon(Icons.send,color: Colors.white,)),
+                      child: IconButton(onPressed: ()async{
+
+                        final message = MessageModel(
+                          id: UniqueKey().toString(),
+                          message: messageController.text,
+                          senderId: FirebaseAuth.instance.currentUser!.uid,
+                          senderName: FirebaseAuth.instance.currentUser!.displayName!,
+                          timestamp: DateTime.now()
+                        );
+
+                        await ChatService.sendMessage(
+                          widget.chatId,
+                          message
+                        );
+
+                      }, icon: Icon(Icons.send,color: Colors.white,)),
                   ),
                 const SizedBox(width: 10,),
                 ],

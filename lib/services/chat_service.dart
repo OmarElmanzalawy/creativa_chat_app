@@ -63,6 +63,15 @@ class ChatService {
   }
 
 
+  static Future<void> sendMessage(String chatId, MessageModel message)async{
+
+    await FirebaseFirestore.instance.collection("chats").doc(chatId).collection("messages").doc(message.id).set(
+      message.toJson()
+    );
+
+  }
+
+
 
 
 }
