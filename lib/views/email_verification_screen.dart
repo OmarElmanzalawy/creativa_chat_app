@@ -22,6 +22,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       final isVerified = await AuthService.checkEmailVerification();
 
       if(isVerified){
+        _timer.cancel();
         Navigator.push(context, MaterialPageRoute(builder:(context) => HomeScreen(),));
       }
     });
@@ -30,15 +31,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     
     super.initState();
   }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-
-
 
   @override
   Widget build(BuildContext context) {
