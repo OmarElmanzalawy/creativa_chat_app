@@ -1,9 +1,11 @@
+import 'package:chat_app/models/message_model.dart';
 import 'package:flutter/material.dart';
 
 class ChatBubble extends StatelessWidget {
-  ChatBubble({super.key,required this.isMe});
+  ChatBubble({super.key,required this.isMe,required this.model});
 
   final bool isMe;
+  final MessageModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +14,10 @@ class ChatBubble extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Username",style: TextStyle(fontWeight: FontWeight.w600),),
+                        Text(model.senderName,style: TextStyle(fontWeight: FontWeight.w600),),
                         Container(
                           padding: EdgeInsets.all(12),
-                          child: Text("This is the message",style: TextStyle(color: Colors.white),),
+                          child: Text(model.message,style: TextStyle(color: Colors.white),),
                           decoration: BoxDecoration(
                             color: isMe ? Colors.blue : Colors.grey,
                             borderRadius:BorderRadius.only(
@@ -26,7 +28,7 @@ class ChatBubble extends StatelessWidget {
                           ),
                     
                         ),
-                        Text("3 days ago",style: TextStyle(color: Colors.black54),)
+                        Text(model.timestamp.toString(),style: TextStyle(color: Colors.black54),)
                       ],
                     ),
                   );

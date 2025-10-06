@@ -95,6 +95,8 @@ static void registerUser({
 
   await FirebaseAuth.instance.currentUser!.sendEmailVerification();
 
+  await FirebaseAuth.instance.currentUser!.updateDisplayName(userName);
+
   final user = UserModel(email: email, userName: userName, id: FirebaseAuth.instance.currentUser!.uid);
 
   

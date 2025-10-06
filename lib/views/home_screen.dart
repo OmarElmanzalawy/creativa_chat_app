@@ -68,10 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
                      PrivateChatScreen(
                       chatId: chatId,
                      ),));
-
-
                     }
-                  } ,
+                  },
                   child: UserCard(
                     model: model,
                   ),

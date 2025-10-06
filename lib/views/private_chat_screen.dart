@@ -24,6 +24,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
   void initState() {
     chat_stream = ChatService.getChatStream(widget.chatId);
     chat_stream.listen((data){
+      print("stream has new data");
       print(data);
     });
     super.initState();
@@ -31,6 +32,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("current user: ${FirebaseAuth.instance.currentUser}");
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
@@ -41,6 +43,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
             child: StreamBuilder<List<MessageModel>>(
               stream: chat_stream,
               builder: (context, snapshot) {
+                print("current data from stream: ${snapshot.data}");
                 print(snapshot.connectionState);
                 if(snapshot.connectionState == ConnectionState.waiting){
                   return Center(
@@ -52,12 +55,17 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
                     child: Text("No messages sent yet"),
                   );
                 }
-                return ListView(
+                return ListView.builder(
                   padding: EdgeInsets.only(top:  15,right: 8,left: 8),
-                  children: [
-                    ChatBubble(isMe: true),
-                    ChatBubble(isMe: false),
-                  ],
+                  itemCount: snapshot.data?.length ?? 0,
+                  itemBuilder:(context, index) {
+                    final model = snapshot.data![index];
+                    return ChatBubble(
+                      isMe: true,
+                      model: model,
+                      );
+                    // return Text("gaeiohgoieah");
+                  },
                 );
               }
             )
@@ -95,7 +103,8 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
                           id: UniqueKey().toString(),
                           message: messageController.text,
                           senderId: FirebaseAuth.instance.currentUser!.uid,
-                          senderName: FirebaseAuth.instance.currentUser!.displayName!,
+                          // senderName: FirebaseAuth.instance.currentUser!.displayName ?? "No username",
+                          senderName: "apeghaipehg",
                           timestamp: DateTime.now()
                         );
 
