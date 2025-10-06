@@ -61,7 +61,6 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
                   itemBuilder:(context, index) {
                     final model = snapshot.data![index];
                     return ChatBubble(
-                      isMe: true,
                       model: model,
                       );
                     // return Text("gaeiohgoieah");

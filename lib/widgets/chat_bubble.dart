@@ -1,14 +1,18 @@
 import 'package:chat_app/models/message_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ChatBubble extends StatelessWidget {
-  ChatBubble({super.key,required this.isMe,required this.model});
+  ChatBubble({super.key,required this.model});
 
-  final bool isMe;
+  
   final MessageModel model;
+  
 
   @override
   Widget build(BuildContext context) {
+    final bool isMe = FirebaseAuth.instance.currentUser!.uid == model.senderId ;
     return Align(
                     alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
                     child: Column(
@@ -28,7 +32,7 @@ class ChatBubble extends StatelessWidget {
                           ),
                     
                         ),
-                        Text(model.timestamp.toString(),style: TextStyle(color: Colors.black54),)
+                        Text(timeago.format(model.timestamp),style: TextStyle(color: Colors.black54),)
                       ],
                     ),
                   );

@@ -53,7 +53,7 @@ class ChatService {
 
   static Stream<List<MessageModel>> getChatStream(String chatId){
 
-    final snapshot =  FirebaseFirestore.instance.collection("chats").doc(chatId).collection("messages").snapshots();
+    final snapshot =  FirebaseFirestore.instance.collection("chats").doc(chatId).collection("messages").orderBy("timestamp").snapshots();
 
    return snapshot.map(
       (snapshot){
