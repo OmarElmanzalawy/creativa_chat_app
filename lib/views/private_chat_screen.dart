@@ -62,6 +62,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
                     final model = snapshot.data![index];
                     return ChatBubble(
                       model: model,
+                      chatId: widget.chatId,
                       );
                     // return Text("gaeiohgoieah");
                   },

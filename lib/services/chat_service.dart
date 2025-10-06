@@ -62,6 +62,12 @@ class ChatService {
     );
   }
 
+  static Future<void> deletePrivateMessage(String chatId, String messageId)async{
+
+    await FirebaseFirestore.instance.collection("chats").doc(chatId).collection("messages").doc(messageId).delete();
+
+  }
+
 
   static Future<void> sendMessage(String chatId, MessageModel message)async{
 
